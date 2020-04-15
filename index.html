@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+			body{padding: 10px 150px;}
+		</style>
+		<link rel="stylesheet" type="text/css" href="css/new_file.css"/>
+	</head>
+	<body>
+		<h2 style="padding-left: 500px;">Git_Note</h2>
+		<h4>初始配置</h4>
+		<div class="chushi">
+			<code>
+				<p>配置文件为 ~/.gitconfig ，执行任何Git配置命令后文件将自动创建。</p>
+				<p>git config --global user.email "XXXXXXX@qq.com"</p>
+				<p>git config --global user.name "XXX"</p>
+			</code>
+		</div>
+			
+		<h4>常用命令</h4>
+		<div class="changyong">
+			<code>
+				<p>初始化新仓库 git init</p>
+				<p>克隆旧仓库 git clone https://gitee.com/houdunwang/hdcms.git</p>
+				<p>查看状态 git status（要随时掌握工作区的状态，使用git status命令。如果git status告诉你有文件被修改过，用git diff index.php可以查看修改内容。）</p>
+				<p>提交单个文件 git add index.php</p>
+				<p>提交所有文件 git add .</p>
+				<p>使用通配符提交 git add *.js</p>
+				<p>提交到仓库中 git commit -m '提示信息'</p>
+				<p>删除版本库与项目目录中的文件 git rm index.php</p>
+				<p>只删除版本库中文件但保存项目目录中文件 git rm --cached index.php</p>
+			</code>
+		</div>
+		<h4>时光机</h4>
+		<div class="Time_machine">
+			<pre>
+				<code>
+Alan@DESKTOP-48L8DPL MINGW64 /f/git_note (master)
+$ vim a.txt
+
+Alan@DESKTOP-48L8DPL MINGW64 /f/git_note (master)
+$ git add .
+Alan@DESKTOP-48L8DPL MINGW64 /f/git_note (master)
+$ git commit -m '第一次提交'
+
+---------------------------------------------------
+
+Alan@DESKTOP-48L8DPL MINGW64 /f/git_note (master)
+$ vim a.txt
+
+Alan@DESKTOP-48L8DPL MINGW64 /f/git_note (master)
+$ git add .
+Alan@DESKTOP-48L8DPL MINGW64 /f/git_note (master)
+$ git commit -m '第二次提交'
+
+---------------------------------------------------
+
+Alan@DESKTOP-48L8DPL MINGW64 /f/git_note (master)
+$ vim a.txt
+
+Alan@DESKTOP-48L8DPL MINGW64 /f/git_note (master)
+$ git add .
+Alan@DESKTOP-48L8DPL MINGW64 /f/git_note (master)
+$ git commit -m '第三次提交'
+
+---------------------------------------------------
+
+$ git log
+commit 44e4a7c9581db7e1b15f07adc331c9c6399ed91a (HEAD -> master)
+Author: unknown <1561314334@qq.com>
+Date:   Fri Apr 10 16:47:52 2020 +0800
+
+    第三次提交
+
+commit 90613191ad356c0769db690471bbbdb39fbd2204
+Author: unknown <1561314334@qq.com>
+Date:   Fri Apr 10 16:47:07 2020 +0800
+
+    第二次提交
+
+commit 97a38597d6416e7204366e03932c0050d2ac0bb2
+Author: unknown <1561314334@qq.com>
+Date:   Fri Apr 10 16:44:15 2020 +0800
+
+    第一次提交
+    
+    
+Alan@DESKTOP-48L8DPL MINGW64 /f/git_note (master)
+$ git log --pretty=oneline
+44e4a7c9581db7e1b15f07adc331c9c6399ed91a (HEAD -> master) 第三次提交
+90613191ad356c0769db690471bbbdb39fbd2204 第二次提交
+97a38597d6416e7204366e03932c0050d2ac0bb2 第一次提交
+			</code>
+			</pre>
+		</div>
+		<pre>
+	我们三次修改和提交之后，可以用git log 来查看历史记录
+	如果嫌显示的数据过多的话可以在后面加上--pretty=oneline  $ git log --pretty=oneline
+	返回的那一端数据是当次提交对应的版本号
+	好了，现在我们启动时光穿梭机，准备把a.txt回退到上一个版本，也就是第二次的那个版本，怎么做呢？
+	首先，Git必须知道当前版本是哪个版本，在Git中，用HEAD表示当前版本，也就是最新的提交44e4...（注意我的提交ID和你的肯定不一样），
+	上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100。
+
+
+		</pre>
+		<div class="Time_machine">
+			<pre>
+				<code>
+	Alan@DESKTOP-48L8DPL MINGW64 /f/git_note (master)
+	$ git reset --hard HEAD^
+	HEAD is now at 9061319 第二次提交
+
+	Alan@DESKTOP-48L8DPL MINGW64 /f/git_note (master)
+	$ cat a.txt
+	1
+	2
+	
+	Alan@DESKTOP-48L8DPL MINGW64 /f/git_note (master)
+	$ git log
+	commit 90613191ad356c0769db690471bbbdb39fbd2204 (HEAD -> master)
+	Author: unknown <1561314334@qq.com>
+	Date:   Fri Apr 10 16:47:07 2020 +0800
+
+  	  第二次提交
+
+	commit 97a38597d6416e7204366e03932c0050d2ac0bb2
+	Author: unknown <1561314334@qq.com>
+	Date:   Fri Apr 10 16:44:15 2020 +0800
+
+   	  第一次提交
+			</code>
+			</pre>
+		</div>
+	<pre>
+	这样我们就回到了上个版本，且在git log一下 已经没了第三次提交的记录
+	你从21世纪坐时光穿梭机来到了19世纪，想再回去已经回不去了，肿么办？
+	办法其实还是有的，只要上面的命令行窗口还没有被关掉，你就可以顺着往上找啊找啊，
+	找到第三次提交的版本号是44e4a7c9581db7e1b15f07adc331c9c6399ed91a于是就可以指定回到未来的某个版本：
+		</pre>
+		<div class="Time_machine">
+			<pre>
+Alan@DESKTOP-48L8DPL MINGW64 /f/git_note (master)
+$ git reset --hard 44e4
+HEAD is now at 44e4a7c 第三次提交
+			</pre>
+		</div>
+	<pre>
+	版本号输入前几位就行了，它会自动查找，我张三汉就回来了
+	如果你关了电脑，第二天还想返回昨天的版本怎么办。
+	<div class="Time_machine">
+			<pre>
+Alan@DESKTOP-48L8DPL MINGW64 /f/git_note (master)
+$ git reflog
+44e4a7c (HEAD -> master) HEAD@{0}: reset: moving to 44e4
+9061319 HEAD@{1}: reset: moving to HEAD^
+44e4a7c (HEAD -> master) HEAD@{2}: commit: 第三次提交
+9061319 HEAD@{3}: commit: 第二次提交
+97a3859 HEAD@{4}: commit: 第一次提交
+			</pre>
+		</div>
+	git reflog会记下所有操作的键值，妈妈再也不用担心了
+
+	</pre>	
+	</body>
+</html>
